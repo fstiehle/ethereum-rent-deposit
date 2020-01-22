@@ -1,6 +1,3 @@
-# solidity-voting
-Simple smart contract for Voting implemented in Solidity for the Ethereum Blockchain 
-
 1. install dependecies via `npm install`
 
 2. run ganache via `npm run ganache`
