@@ -4,7 +4,7 @@ const provider = new HDWalletProvider("hope cabin bone sunset thrive eight tray 
 
 const Web3 = require('web3')
 const fs = require('fs')
-const tests = require('./tests')
+const tests = require('./test')
 const web3 = new Web3(provider)
 
 web3.eth.getBlockNumber()
