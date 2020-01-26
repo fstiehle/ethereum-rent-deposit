@@ -15,7 +15,7 @@ const runTest = async (contract, provider) => {
     from: provider.addresses[0] 
   })
   .then(
-    (e) => console.log("New rent contract at: " + e), // throw error if succees
+    (e) => console.log("New rent contract at: " + e),
     (error) => assert.ok(false))
 }
 

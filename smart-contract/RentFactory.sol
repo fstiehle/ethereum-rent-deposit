@@ -5,6 +5,15 @@ import './Rent.sol';
 
 contract RentFactory is Ownable {
 
+  /**
+    Creates new rent contract
+    @param landlord Landlords public key
+    @param tenant Tenants public key
+    @param depositWei Deposit Amount in Wei
+    @param startTime UTC timestamp of the start date of the contract
+    @param expirationTime UTC timestamp of the end date of the contract
+    @param integrityHash Hash of integrity data kept off-chain
+   */
   function createInstance(
     address payable landlord,
     address payable tenant,
