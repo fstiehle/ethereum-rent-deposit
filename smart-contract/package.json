@@ -4,18 +4,18 @@
   "description": "",
   "main": "deploy.js",
   "scripts": {
-    "ganache": "ganache-cli --gasPrice 2000000000 -m 'hope cabin bone sunset thrive eight tray rubber earth resemble survey nasty'",
-    "build": "solcjs Rent.sol --bin --abi"
+    "ganache": "ganache-cli --gasLimit 2000000000000000 --gasPrice 200 --allowUnlimitedContractSize -m 'hope cabin bone sunset thrive eight tray rubber earth resemble survey nasty'",
+    "build": "node compile.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^2.4.0",
+    "@openzeppelin/contracts": "^2.4.0"
+  },
+  "devDependencies": {
+    "ganache-cli": "^6.7.0",
     "@truffle/hdwallet-provider": "^1.0.25",
     "node": "^13.1.0",
     "solc": "^0.5.13"
-  },
-  "devDependencies": {
-    "ganache-cli": "^6.7.0"
   }
 }
