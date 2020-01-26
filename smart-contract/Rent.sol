@@ -53,9 +53,10 @@ contract Rent {
     Landlord can make a claim to start settlement phase
    */
   function makeClaim() external onlyLandlord {
-    settlement = false;
     // Our contract can tolerate slight timestamp variation
     // See: https://link.medium.com/1J8eBAxSy3
+    require(expirationTime > block.timestamp, "Rent contract still active");
+    settlement = false;
     claimMade = block.timestamp;
   }
 
