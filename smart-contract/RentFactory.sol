@@ -13,6 +13,7 @@ contract RentFactory is Ownable {
     @param startTime UTC timestamp of the start date of the contract
     @param expirationTime UTC timestamp of the end date of the contract
     @param integrityHash Hash of integrity data kept off-chain
+    @return address New contract address
    */
   function createInstance(
     address payable landlord,
