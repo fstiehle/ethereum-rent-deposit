@@ -2,6 +2,12 @@ pragma solidity ^0.5.0;
 
 contract Rent {
 
+  /**
+    The time window a landlord is able to make a claim
+    after the contract ends
+   */
+  uint constant claimWindow = 2419200; // 4 weeks
+
   address payable private landlord;
   address payable private tenant;
   uint256 depositWei;
@@ -56,6 +62,7 @@ contract Rent {
     // Our contract can tolerate slight timestamp variation
     // See: https://link.medium.com/1J8eBAxSy3
     require(expirationTime > block.timestamp, "Rent contract still active");
+    require(expirationTime + claimWindow < block.timestamp, "Claim window expired");
     settlement = false;
     claimMade = block.timestamp;
   }
@@ -85,6 +92,7 @@ contract Rent {
     Tenant or Landlord withdraw their share
    */
   function withdraw() external onlyParty {
+    require(true == settlement, "No settlement reached, use settle() first");
     uint toSend = 0;
     if (msg.sender == landlord) {
       toSend = settleLandlord;
