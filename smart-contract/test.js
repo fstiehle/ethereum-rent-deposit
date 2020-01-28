@@ -10,7 +10,7 @@ const runTest = async (contract, provider) => {
     500000,
     Date.now(),
     new Date(Date.now()).setFullYear(new Date(Date.now()).getFullYear() + 1),
-    Web3.utils.fromAscii("Hash")
+    2
   ).call({
     from: provider.addresses[0] 
   })

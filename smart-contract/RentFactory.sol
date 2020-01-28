@@ -21,7 +21,7 @@ contract RentFactory is Ownable {
     uint256 depositWei,
     uint startTime,
     uint expirationTime,
-    bytes memory integrityHash
+    uint integrityHash
     )
     public onlyOwner returns (address)
   {

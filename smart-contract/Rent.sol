@@ -33,7 +33,7 @@ contract Rent {
     uint256 _depositWei,
     uint _startTime,
     uint _expirationTime,
-    bytes memory _integrityHash
+    uint _integrityHash
     )
     public
   {
