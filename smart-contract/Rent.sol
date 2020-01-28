@@ -90,6 +90,7 @@ contract Rent {
 
   /**
     Tenant or Landlord withdraw their share
+    Use Checks-Effects-Interactions Pattern
    */
   function withdraw() external onlyParty {
     require(true == settlement, "No settlement reached, use settle() first");
@@ -110,8 +111,9 @@ contract Rent {
     return ([tenant, landlord], [settleTenant, settleLandlord]);
   }
 
-  function kill(address payable returnTo) private {
-    selfdestruct(returnTo);
+  function kill(address payable returnTo) external onlyLandlord {
+    require(true == settlement && 0 == settleLandlord && 0 == settleTenant, "Only a settled contract can be killed");
+    selfdestruct(landlord);
   }
 
   modifier onlyLandlord {
