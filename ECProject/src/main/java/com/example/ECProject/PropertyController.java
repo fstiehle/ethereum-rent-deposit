@@ -2,10 +2,10 @@ package com.example.ECProject;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller//=================
 @RequestMapping("api/addproperty")
 public class PropertyController {
 
@@ -16,7 +16,7 @@ public class PropertyController {
     public PropertyController(PropertyService service) {
         this.service = service;
     }
-
+/*
     @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -30,13 +30,30 @@ public class PropertyController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public int addProperty(@RequestBody Property pro)
+*/
+    @RequestMapping(value="/save")
+    @ResponseBody
+    public int addProperty(Property pro)//int <-->String
     {
+
         if(service.newProperty(pro))
         {
-            return pro.getHashValue();
+            return pro.gethashValue();
+            //return "success";
+
         }
         else
-        return 65;
+             return 65;
+            // return "/fail";
     }
+    //=====================
+    
+    @RequestMapping("/hello")
+    public String start(){
+        return  "/visit";
+    }
+    
+    //========================
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.ECProject;
 
+
 import java.sql.Date;
 import java.util.Objects;
 
@@ -49,29 +50,25 @@ public class Property {
         return Objects.hash(street, plz, houseNumber, city, land, country);
     }
 
-    public String getFirstName() {
+    public String getfirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setfirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public String getlastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setlastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+    public Date getbirthDate() { return birthDate; }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
+    public void setbirthDate(Date birthDate) {this.birthDate = birthDate;}
 
     public String getEmail() {
         return email;
@@ -97,11 +94,11 @@ public class Property {
         this.plz = plz;
     }
 
-    public int getHouseNumber() {
+    public int gethouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void sethouseNumber(int houseNumber) {
         this.houseNumber = houseNumber;
     }
 
@@ -129,9 +126,24 @@ public class Property {
         this.country = country;
     }
 
-    public int getHashValue() {
+    public int gethashValue() {
         return hashValue;
     }
 
-
+    @Override
+    public String toString() {
+        return "Properties{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", email='" + email + '\'' +
+                ", street='" + street + '\'' +
+                ", plz=" + plz +
+                ", houseNumber=" + houseNumber +
+                ", city='" + city + '\'' +
+                ", land='" + land + '\'' +
+                ", country='" + country + '\'' +
+                ", hashValue=" + hashValue +
+                '}';
+    }
 }

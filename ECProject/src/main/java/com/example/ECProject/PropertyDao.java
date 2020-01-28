@@ -11,12 +11,12 @@ public class PropertyDao {
 
     public PropertyDao() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/ectest","admin","admin");
+            connection= DriverManager.getConnection("jdbc:mysql://localhost:3307/ec?characterEncoding=utf-8&useSSL=false&serverTimezone=Hongkong","root","admin");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -26,18 +26,18 @@ public class PropertyDao {
         int result=0;
         try {
             connection.setAutoCommit(false);
-            PreparedStatement statement=connection.prepareStatement("INSERT INTO properties (firstname,lastname,birthdate,email,street,plz,housenum,city,land,country,hashvalue) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-            statement.setString(1,property.getFirstName());
-            statement.setString(2,property.getLastName());
-            statement.setDate(3, property.getBirthDate());
-            statement.setString(4,property.getEmail());
-            statement.setString(5,property.getStreet());
-            statement.setInt(6,property.getPlz());
-            statement.setInt(7,property.getHouseNumber());
-            statement.setString(8,property.getCity());
-            statement.setString(9,property.getLastName());
-            statement.setString(10,property.getCountry());
-            statement.setInt(11,property.getHashValue());
+            PreparedStatement statement=connection.prepareStatement("INSERT INTO properties (firstName,lastName,birthDate,email,street,plz,housenum,city,land,country,hashValue) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            statement.setString(1, property.getfirstName());
+            statement.setString(2, property.getlastName());
+            statement.setDate(3, (Date) property.getbirthDate());
+            statement.setString(4, property.getEmail());
+            statement.setString(5, property.getStreet());
+            statement.setInt(6, property.getPlz());
+            statement.setInt(7, property.gethouseNumber());
+            statement.setString(8, property.getCity());
+            statement.setString(9, property.getlastName());
+            statement.setString(10, property.getCountry());
+            statement.setInt(11, property.gethashValue());
             statement.execute();
             result=1;
 
