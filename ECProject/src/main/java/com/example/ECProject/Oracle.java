@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 public class Oracle {
 
     private final String contractAddress = "0xF9AD9835a2eF648186d18B6303824f7A500Ca9Ad";
+    private final int CONFIRMATIONBLOCKS = 12;
 
     private final Web3j web3;
     private final Credentials wallet;
@@ -40,6 +41,10 @@ public class Oracle {
      */
     public String createRentContract(Property property) {
         String transactionHash = this.sendTransaction(property);
+        return "test";
+    }
+
+    private String confirmTransaction(String transactionHash) {
         return "test";
     }
 
