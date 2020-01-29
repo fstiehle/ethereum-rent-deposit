@@ -11,7 +11,7 @@ contract Rent {
   address payable private landlord;
   address payable private tenant;
   uint256 depositWei;
-  bytes integrityHash;
+  uint integrityHash;
 
   uint256 settleLandlord;
   uint256 settleTenant;

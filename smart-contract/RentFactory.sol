@@ -5,6 +5,8 @@ import './Rent.sol';
 
 contract RentFactory is Ownable {
 
+  event ContractCreated(uint, address);
+
   /**
     Creates new rent contract
     @param landlord Landlords public key
@@ -25,7 +27,9 @@ contract RentFactory is Ownable {
     )
     public onlyOwner returns (address)
   {
-    return address(new Rent(landlord, tenant, depositWei, startTime, expirationTime, integrityHash));
+    address _address = address(new Rent(landlord, tenant, depositWei, startTime, expirationTime, integrityHash));
+    emit ContractCreated(integrityHash, _address);
+    return _address;
   }
 
 }
