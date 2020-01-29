@@ -1,5 +1,7 @@
 package com.example.ECProject;
 
+import org.web3j.abi.EventEncoder;
+import org.web3j.abi.EventValues;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
@@ -8,11 +10,15 @@ import org.web3j.abi.datatypes.Uint;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.*;
+import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
+import org.web3j.abi.datatypes.Event;
 
+import java.awt.*;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -24,7 +30,6 @@ import java.util.logging.Logger;
 public class Oracle {
 
     private final String contractAddress = "0xF3B090c5284dEF6c00A4c9ac6D279F181844c8f5";
-    private final int CONFIRMATIONBLOCKS = 12;
     private final int ATTEMPTS = 3;
 
     private final Web3j web3;
@@ -46,12 +51,19 @@ public class Oracle {
         TransactionReceipt receipt = confirmTransaction(transactionHash);
 
         if (null != receipt) {
-            return "test";
+            Event event = new Event("ContractCreated",
+                Arrays.asList(new TypeReference<Uint>() {}, new TypeReference<Address>() {}));
+
+            EventValues values = Contract.staticExtractEventParameters(event, receipt.getLogs().get(0));
+            if (0 == values.getNonIndexedValues().size() ) {
+                LOGGER.severe("Contract didn't emit ContractCreated Event");
+                return null;
+            }
+
+            return values.getNonIndexedValues().get(1).toString();
         }
 
-        System.out.println(receipt.getLogs().toString());
-
-        return "test";
+        return null;
     }
 
     /**
