@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class Oracle {
 
     private final String contractAddress = "0xF3B090c5284dEF6c00A4c9ac6D279F181844c8f5";
-    private final int ATTEMPTS = 3;
+    private final int ATTEMPTS = 12;
 
     private final Web3j web3;
     private final Credentials wallet;
@@ -42,20 +42,21 @@ public class Oracle {
     }
 
     /**
-     *
+     * Call Factory contract &
+     * Confirm it is mined and get Emitted event
      * @param property
      * @return String address of created contract
      */
     public String createRentContract(Property property) {
         String transactionHash = this.sendTransaction(property);
-        TransactionReceipt receipt = confirmTransaction(transactionHash);
+        TransactionReceipt receipt = this.confirmTransaction(transactionHash);
 
         if (null != receipt) {
             Event event = new Event("ContractCreated",
                 Arrays.asList(new TypeReference<Uint>() {}, new TypeReference<Address>() {}));
 
             EventValues values = Contract.staticExtractEventParameters(event, receipt.getLogs().get(0));
-            if (0 == values.getNonIndexedValues().size() ) {
+            if (0 == values.getNonIndexedValues().size()) {
                 LOGGER.severe("Contract didn't emit ContractCreated Event");
                 return null;
             }
@@ -150,7 +151,7 @@ public class Oracle {
     }
 
     private BigInteger getNonce() {
-        EthGetTransactionCount ethGetTransactionCount = null;
+        EthGetTransactionCount ethGetTransactionCount;
         try {
             ethGetTransactionCount = this.web3.ethGetTransactionCount(
                     this.wallet.getAddress(), DefaultBlockParameterName.LATEST).sendAsync().get();
