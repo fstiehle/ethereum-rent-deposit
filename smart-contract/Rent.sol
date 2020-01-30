@@ -11,7 +11,7 @@ contract Rent {
   address payable private landlord;
   address payable private tenant;
   uint256 depositWei;
-  uint integrityHash;
+  int integrityHash;
 
   uint256 settleLandlord;
   uint256 settleTenant;
@@ -33,7 +33,7 @@ contract Rent {
     uint256 _depositWei,
     uint _startTime,
     uint _expirationTime,
-    uint _integrityHash
+    int _integrityHash
     )
     public
   {
