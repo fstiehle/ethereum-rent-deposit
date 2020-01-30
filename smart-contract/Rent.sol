@@ -8,20 +8,20 @@ contract Rent {
    */
   uint constant claimWindow = 2419200; // 4 weeks
 
-  address payable private landlord;
-  address payable private tenant;
-  uint256 depositWei;
-  int integrityHash;
+  address payable public landlord;
+  address payable public tenant;
+  uint256 public depositWei;
+  int public integrityHash;
 
-  uint256 settleLandlord;
-  uint256 settleTenant;
-  bool settlement = true;
-  bool active = false;
+  uint256 public settleLandlord;
+  uint256 public settleTenant;
+  bool public settlement = true;
+  bool public active = false;
 
   // Unix timestamps
-  uint startTime;
-  uint expirationTime;
-  uint claimMade;
+  uint public startTime;
+  uint public expirationTime;
+  uint public claimMade;
 
   event SettlementOffer(address bidder, uint amount);
   event DepositWithdrawn(address account, uint amount);
@@ -51,14 +51,21 @@ contract Rent {
   function acceptContract() external payable onlyTenant {
     if (address(this).balance >= depositWei) {
       settleTenant = depositWei;
+      settlement = true;
       active = true;
     }
+  }
+
+  function() external payable {
+    require(0 == msg.data.length, "Invalid function called");
+    this.acceptContract();
   }
 
   /**
     Landlord can make a claim to start settlement phase
    */
   function makeClaim() external onlyLandlord {
+    require(true == active, "Tenant has not accepted this contract yet");
     // Our contract can tolerate slight timestamp variation
     // See: https://link.medium.com/1J8eBAxSy3
     require(expirationTime > block.timestamp, "Rent contract still active");
@@ -72,6 +79,7 @@ contract Rent {
     @param _settle amount in wei to claim from deposit
    */
   function settle(uint256 _settle) external onlyParty {
+    require(true == active, "Tenant has not accepted this contract yet");
     require(false == settlement, "Settlement already reached");
     require(_settle <= depositWei, "Settlement can not be higher than deposit");
 
@@ -93,6 +101,7 @@ contract Rent {
     Use Checks-Effects-Interactions Pattern
    */
   function withdraw() external onlyParty {
+    require(true == active, "Tenant has not accepted this contract yet");
     require(true == settlement, "No settlement reached, use settle() first");
     uint toSend = 0;
     if (msg.sender == landlord) {
@@ -111,7 +120,8 @@ contract Rent {
     return ([tenant, landlord], [settleTenant, settleLandlord]);
   }
 
-  function kill(address payable returnTo) external onlyLandlord {
+
+  function kill() external onlyLandlord {
     require(true == settlement && 0 == settleLandlord && 0 == settleTenant, "Only a settled contract can be killed");
     selfdestruct(landlord);
   }
