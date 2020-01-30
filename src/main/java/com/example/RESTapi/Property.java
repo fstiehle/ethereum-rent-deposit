@@ -17,14 +17,14 @@ public class Property {
     private String country;
     private int hashValue;
     private String ownerPublicKey;
-    private String tanentPublicKey;
+    private String tenantPublicKey;
     private int depositAmount;
     private Date startDate;
     private Date endDate;
 
     public Property(String firstName, String lastName, Date birthDate, String email, String street, int plz,
                     int houseNumber, String city, String land, String country, String ownerPublicKey,
-                    String tanentPublicKey, int depositAmount, Date startDate, Date endDate) {
+                    String tenantPublicKey, int depositAmount, Date startDate, Date endDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -37,7 +37,7 @@ public class Property {
         this.country = country;
         this.hashValue= this.hashCode();
         this.ownerPublicKey = ownerPublicKey;
-        this.tanentPublicKey = tanentPublicKey;
+        this.tenantPublicKey = tenantPublicKey;
         this.depositAmount = depositAmount;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -154,12 +154,12 @@ public class Property {
         this.ownerPublicKey = ownerPublicKey;
     }
 
-    public String getTanentPublicKey() {
-        return tanentPublicKey;
+    public String getTenantPublicKey() {
+        return tenantPublicKey;
     }
 
-    public void setTanentPublicKey(String tanentPublicKey) {
-        this.tanentPublicKey = tanentPublicKey;
+    public void setTenantPublicKey(String tenantPublicKey) {
+        this.tenantPublicKey = tenantPublicKey;
     }
 
     public int getDepositAmount() {
