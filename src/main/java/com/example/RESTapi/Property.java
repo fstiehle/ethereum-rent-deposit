@@ -26,6 +26,7 @@ public class Property {
                     int houseNumber, String city, String land, String country, String ownerPublicKey,
                     String tenantPublicKey, int depositAmount, Date startDate, Date endDate) {
         this.firstName = firstName;
+
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.email = email;
