@@ -5,7 +5,7 @@ import './Rent.sol';
 
 contract RentFactory is Ownable {
 
-  event ContractCreated(uint, address);
+  event ContractCreated(int, address);
 
   /**
     Creates new rent contract

@@ -1,12 +1,11 @@
-package com.example.ECProject;
+package com.example.RESTapi;
 
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.EventValues;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Address;
-import org.web3j.abi.datatypes.Function;
-import org.web3j.abi.datatypes.Uint;
+import org.web3j.abi.datatypes.*;
+import org.web3j.abi.datatypes.Event;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -16,7 +15,6 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
-import org.web3j.abi.datatypes.Event;
 
 import java.awt.*;
 import java.io.IOException;
@@ -29,7 +27,7 @@ import java.util.logging.Logger;
 
 public class Oracle {
 
-    private final String contractAddress = "0xF3B090c5284dEF6c00A4c9ac6D279F181844c8f5";
+    private final String contractAddress = "0x0C1bCcaa3272e319C0F4275EDB24c68EFEA84F45";
     private final int ATTEMPTS = 12;
 
     private final Web3j web3;
@@ -53,15 +51,17 @@ public class Oracle {
 
         if (null != receipt) {
             Event event = new Event("ContractCreated",
-                Arrays.asList(new TypeReference<Uint>() {}, new TypeReference<Address>() {}));
+                Arrays.asList(new TypeReference<Int>() {}, new TypeReference<Address>() {}));
 
             EventValues values = Contract.staticExtractEventParameters(event, receipt.getLogs().get(0));
-            if (0 == values.getNonIndexedValues().size()) {
+            if (null == values || 0 == values.getNonIndexedValues().size()) {
                 LOGGER.severe("Contract didn't emit ContractCreated Event");
                 return null;
             }
 
-            return values.getNonIndexedValues().get(1).toString();
+            String result = values.getNonIndexedValues().get(1).toString();
+            LOGGER.info("Rent contract created at: " + result);
+            return result;
         }
 
         return null;
@@ -110,12 +110,12 @@ public class Oracle {
         Function function = new Function(
                 "createInstance",
                 Arrays.asList(
-                        new Address("0x1A218f5BA9C14f594ECBf9DD07F5B9E0885114a1"),
-                        new Address("0xA68F9485d4be42A413D4dbe7EcEb180784986967"),
-                        new Uint(BigInteger.ONE),
-                        new Uint(BigInteger.ONE),
-                        new Uint(BigInteger.TEN),
-                        new Uint(BigInteger.ZERO)),
+                        new Address(property.getOwnerPublicKey()),
+                        new Address(property.getTanentPublicKey()),
+                        new Uint(BigInteger.valueOf(property.getDepositAmount())),
+                        new Uint(BigInteger.valueOf(property.getStartDate().getTime() / 1000)),
+                        new Uint(BigInteger.valueOf(property.getEndDate().getTime() / 1000)),
+                        new Int(BigInteger.valueOf(property.getHashValue()))),
                 Arrays.asList(new TypeReference<Address>() {} ));
 
         String encodedFunction = FunctionEncoder.encode(function);

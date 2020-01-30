@@ -1,4 +1,4 @@
-package com.example.ECProject;
+package com.example.RESTapi;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +19,11 @@ public class OracleTest {
                 3,
                 "s",
                 "3",
-                "2"));
+                "2",
+                "1",
+                "2",
+                2,
+                new Date(12),
+                new Date(13)));
     }
 }
