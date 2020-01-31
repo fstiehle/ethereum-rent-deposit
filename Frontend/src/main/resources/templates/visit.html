@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script th:src="@{/jquery/jquery.min.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+<title>registration page</title>
+<link th:href="@{/bootstrap/css/bootstrap.css}" rel="stylesheet" />
+<link th:href="@{/css/taobao.css}" rel="stylesheet" />
+</head>
+	
+<body>
+	
+	<!--  start -->
+	<div class="container">
+		<div class="row info-content">
+			<form id="registerForm" class="form-horizontal" method="post"
+				action="" style="margin-top: 20px;">
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">First name</label>
+					<div class="col-sm-3">
+						<input type="text" id="firstName" value="" name="firstName"
+							class="form-control" placeholder=" Enter your first name" required>
+					</div>
+
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Last name</label>
+					<div class="col-sm-3">
+						<input type="text" id="lastName" value="" name="lastName"
+							class="form-control" placeholder=" Enter your last name" required>
+					</div>
+
+				</div>
+
+
+				<div class="form-group">
+				<label class="col-sm-2 control-label">Birthday</label>
+
+				<div class="col-sm-3">
+						<input type="date" id="birthDate" value="" name="birthDate"
+							class="form-control" placeholder="DD-MM-YYYY" required>
+				</div>
+					
+				</div>
+
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">E-Mail</label>
+					<div class="col-sm-3">
+						<input type="text" id="email" value="" name="email"
+							class="form-control" placeholder="Enter your email" required>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Street</label>
+					<div class="col-sm-3">
+						<input type="text" id="street" value="" name="street"
+							class="form-control" placeholder="Enter your street(e.g. Cosmarwedstr)" required>
+					</div>
+					
+					<label class="col-sm-2 control-label">PLZ</label>
+					<div class="col-sm-3">
+						<input type="text" id="plz" value="" name="plz"
+							class="form-control" placeholder="Enter your PLZ(e.g. 13533)"  onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" required>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">House Number</label>
+					<div class="col-sm-3">
+						<input type="text" id="houseNumber" value="" name="houseNumber"
+							class="form-control" placeholder="Enter your houseNumber(e.g. 402)"  onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" required>
+					</div>
+					
+					<label class="col-sm-2 control-label">City</label>
+					<div class="col-sm-3">
+						<input type="text" id="city" value="" name="city"
+							class="form-control" placeholder="Enter your city(e.g. Berlin)" required>
+					</div>
+
+				</div>
+				
+				
+				
+				<div class="form-group">
+				
+					<label class="col-sm-2 control-label">Land</label>
+					<div class="col-sm-3">
+						<input type="text" id="land" value="" name="land"
+							class="form-control" placeholder="Enter your Land" required>
+					</div>
+					
+					<label class="col-sm-2 control-label">Country</label>
+					<div class="col-sm-3">
+						<input type="text" id="country" value="" name="country"
+							class="form-control" placeholder="Enter your country(e.g. Germany)" required>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-2 control-label">OwnerPublicKey</label>
+					<div class="col-sm-3">
+						<input type="text" id="ownerPublicKey" value="" name="ownerPublicKey"
+							   class="form-control" placeholder="Enter your ownerPublicKey(e.g. ABX2)" required>
+					</div>
+
+					<label class="col-sm-2 control-label">TenantPublicKey</label>
+					<div class="col-sm-3">
+						<input type="text" id="tenantPublicKey" value="" name="tenantPublicKey"
+							   class="form-control" placeholder="Enter your tenantPublicKey(e.g.ABX2)" required>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-2 control-label">StartDate</label>
+					<div class="col-sm-3">
+						<input type="date" id="startDate" value="" name="startDate"
+							   class="form-control" placeholder="Enter the startDate" required>
+					</div>
+
+					<label class="col-sm-2 control-label">EndDate</label>
+					<div class="col-sm-3">
+						<input type="date" id="endDate" value="" name="endDate"
+							   class="form-control" placeholder=" Enter the endDate" required>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">DepositAmount</label>
+					<div class="col-sm-3">
+						<input type="text" maxlength="11" id="depositAmount" value="" name="depositAmount"
+							   class="form-control" placeholder="Enter your depositAmount(e.g. 2)"  onkeyup="value=value.replace(/[^\d]/g,'') "onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" required>
+					</div>
+				</div>
+
+				
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-3">
+						<button type="submit" id="btn_submit" class="btn btn-success">
+							<span class="glyphicon glyphicon-user">Register
+						</button>
+						<button type="reset" class="btn btn-info">
+							<span class="glyphicon glyphicon-edit">Reset
+						</button>
+					</div>
+				</div>
+			</form>
+
+			<script>
+
+				$(function() {
+
+					$('#btn_submit').click(function () {
+						var row={
+							firstName: $('#firstName').val(),
+							lastName: $('#lastName').val(),
+							birthDate: $('#birthDate').val(),
+							email: $('#email').val(),
+							street: $('#street').val(),
+							plz: $('#plz').val(),
+							houseNumber: $('#houseNumber').val(),
+							city: $('#city').val(),
+							land: $('#land').val(),
+							country: $('#country').val(),
+							ownerPublicKey: $('#ownerPublicKey').val(),
+							tenantPublicKey: $('#tenantPublicKey').val(),
+							startDate: $('#startDate').val(),
+							endDate: $('#endDate').val(),
+							depositAmount: $('#depositAmount').val()
+					}
+
+						$.ajax({
+							//url:'/api/save',
+							url: 'http://.../.../...', //EC2 ip + port + project name + RequestMapping
+							type: 'post',
+							dataType: 'json',
+							async: false,
+							contentType: 'application/json;charset=utf-8',
+							data: JSON.stringify(row),
+
+							success: function (result) {
+								GetResult(result);
+
+							}
+
+						});
+
+
+					})
+				})
+
+				function GetResult(result){
+					if (result!=null) {
+						alert("submit success");
+					}else {
+						alert("submit failed");
+					}
+				}
+
+			</script>
+
+		</div>
+		<footer>
+			<p>&copy; <b>Copyright 2020</b></p>
+		</footer>
+	
+
+	</div>
+	<!--end  -->
+</body>
+</html>
