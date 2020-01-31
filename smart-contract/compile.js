@@ -27,7 +27,7 @@ function findImports(path) {
   }
 }
 
-const compiledCode = solc.compile(JSON.stringify(inputs), { import: findImports })
+const compiledCode = JSON.parse(solc.compile(JSON.stringify(inputs), { import: findImports }))
 
 if (compiledCode.hasOwnProperty('errors')) {
   for (var error of compiledCode.errors) {

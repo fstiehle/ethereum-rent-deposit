@@ -31,7 +31,7 @@ contract.deploy({
   console.log("Contract Address: " + instance.options.address) 
 
   console.log("Run tests ...")
-  tests(instance, provider)
+  tests(instance, provider, web3, compiledCode.contracts['Rent.sol']['Rent'].abi)
 
 });
 

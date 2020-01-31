@@ -9,7 +9,7 @@ contract Rent {
   uint constant claimWindow = 2419200; // 4 weeks
 
   address payable public landlord;
-  address payable public tenant;
+  address public tenant;
   uint256 public depositWei;
   int public integrityHash;
 
@@ -29,7 +29,7 @@ contract Rent {
 
   constructor(
     address payable _landlord,
-    address payable _tenant,
+    address _tenant,
     uint256 _depositWei,
     uint _startTime,
     uint _expirationTime,
@@ -116,7 +116,7 @@ contract Rent {
     emit DepositWithdrawn(msg.sender, toSend);
   }
 
-  function currentSettlementStatus() external view returns (address payable[2] memory, uint[2] memory) {
+  function currentSettlementStatus() external view returns (address[2] memory, uint[2] memory) {
     return ([tenant, landlord], [settleTenant, settleLandlord]);
   }
 

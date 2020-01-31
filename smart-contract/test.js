@@ -1,7 +1,9 @@
 const assert = require('assert');
 const Web3 = require('web3')
 
-const runTest = async (contract, provider) => {
+const runTest = async (contract, provider, web3, rentContractAbi) => {
+
+  var address;
   
   console.log("Create new rent contract")
   await contract.methods.createInstance(
@@ -12,11 +14,28 @@ const runTest = async (contract, provider) => {
     new Date(Date.now()).setFullYear(new Date(Date.now()).getFullYear() + 1),
     2
   ).call({
+    from: provider.addresses[0],
+    gas: 9999999999999
+  })
+  .then(
+    (e) => {
+      console.log("New rent contract at: " + e)
+      address = e;
+    },
+    (error) => assert.ok(false))
+
+  console.log("Test Rent contract")
+  const rentContract = new web3.eth.Contract(rentContractAbi, address)
+
+  rentContract.methods.currentSettlementStatus().call({
     from: provider.addresses[0] 
   })
   .then(
-    (e) => console.log("New rent contract at: " + e),
-    (error) => assert.ok(false))
+    (e) => {
+      console.log(e)
+    },
+    (error) => console.log(error))
+
 }
 
 module.exports = runTest;
