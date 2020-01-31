@@ -29,7 +29,6 @@ contract RentFactory is Ownable {
   {
     address _address = address(new Rent(landlord, tenant, depositWei, startTime, expirationTime, integrityHash));
     emit ContractCreated(integrityHash, _address);
-    return _address;
   }
 
 }

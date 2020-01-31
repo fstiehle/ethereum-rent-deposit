@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^2.4.0"
+    "@openzeppelin/contracts": "^2.4.0",
+    "@optionality.io/clone-factory": "^0.2.1"
   },
   "devDependencies": {
     "ganache-cli": "^6.7.0",

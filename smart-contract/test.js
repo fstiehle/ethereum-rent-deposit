@@ -13,14 +13,14 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
     Date.now(),
     new Date(Date.now()).setFullYear(new Date(Date.now()).getFullYear() + 1),
     2
-  ).call({
+  ).send({
     from: provider.addresses[0],
     gas: 9999999999999
   })
   .then(
     (e) => {
-      console.log("New rent contract at: " + e)
-      address = e;
+      address = e.events['ContractCreated'].returnValues[1];
+      console.log("New rent contract at: " + address);
     },
     (error) => assert.ok(false))
 
