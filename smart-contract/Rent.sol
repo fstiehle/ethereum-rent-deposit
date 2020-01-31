@@ -49,16 +49,25 @@ contract Rent {
     Tenant can accept contract if deposit has been made
    */
   function acceptContract() external payable onlyTenant {
+    proccessPayment();
+  }
+
+  /**
+    Everyone can make a payment but only tenant can accept contract
+   */
+  function() external payable {
+    require(0 == msg.data.length, "Invalid function called");
+    if (tenant == msg.sender) {
+      proccessPayment();
+    }
+  }
+
+  function proccessPayment() internal {
     if (address(this).balance >= depositWei) {
       settleTenant = depositWei;
       settlement = true;
       active = true;
     }
-  }
-
-  function() external payable {
-    require(0 == msg.data.length, "Invalid function called");
-    this.acceptContract();
   }
 
   /**
