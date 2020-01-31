@@ -14,13 +14,13 @@ public class PropertyService {
         this.dao = dao;
     }
 
-    public boolean newProperty(Property property)
+    public String [] newProperty(Property property)
     {
-        if(dao.InsertProperty(property)==1)
-        {
-            return true;
+        String [] result= new String[2];
+        for (String s : result = dao.InsertProperty(property)) {
+
         }
-        else
-            return false;
+        ;
+        return result;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.RESTapi;
 
-import org.web3j.abi.EventEncoder;
 import org.web3j.abi.EventValues;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
@@ -9,14 +8,11 @@ import org.web3j.abi.datatypes.Event;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.request.*;
-import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 
-import java.awt.*;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -111,7 +107,7 @@ public class Oracle {
                 "createInstance",
                 Arrays.asList(
                         new Address(property.getOwnerPublicKey()),
-                        new Address(property.getTanentPublicKey()),
+                        new Address(property.getTenantPublicKey()),
                         new Uint(BigInteger.valueOf(property.getDepositAmount())),
                         new Uint(BigInteger.valueOf(property.getStartDate().getTime() / 1000)),
                         new Uint(BigInteger.valueOf(property.getEndDate().getTime() / 1000)),

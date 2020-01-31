@@ -29,13 +29,22 @@ public class PropertyController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public int addProperty(@RequestBody Property pro)
+    public String[] addProperty(@RequestBody Property pro)
     {
-        if(service.newProperty(pro))
+        String [] result= new String[2];
+        for (String s : result = service.newProperty(pro)) {
+
+        }
+        ;
+        if(result[0]=="0")
         {
-            return pro.getHashValue();
+            result[0]="There is a problem with the DB";
         }
         else
-            return 0;
+            if(result[1]=="0")
+            {
+                result[1]="There is a problem with the Block chain";
+            }
+        return result;
     }
 }

@@ -8,8 +8,11 @@ import java.sql.*;
 public class PropertyDao {
 
     private static Connection connection;
+    private static Oracle oracle;
 
     public PropertyDao() {
+
+        oracle= new Oracle();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -22,8 +25,11 @@ public class PropertyDao {
         }
     }
 
-    public int InsertProperty(Property property) {
-        int result=0;
+    public String [] InsertProperty(Property property) {
+
+        String [] res= new String[2];
+        res[0]="0";
+        res[1]="0";
         try {
             connection.setAutoCommit(false);
             PreparedStatement statement=connection.prepareStatement("INSERT INTO properties (firstname,lastname,birthdate,email,street,plz,housenum,city,land,country,hashvalue) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
@@ -39,7 +45,8 @@ public class PropertyDao {
             statement.setString(10,property.getCountry());
             statement.setInt(11,property.getHashValue());
             statement.execute();
-            result=1;
+            res[0]= String.valueOf(property.hashCode());
+            res[1]=oracle.createRentContract(property);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,7 +58,7 @@ public class PropertyDao {
                 e.printStackTrace();
             }
         }
-        return result;
+        return res;
     }
 
 
