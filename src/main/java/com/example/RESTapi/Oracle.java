@@ -50,7 +50,7 @@ public class Oracle {
 
         if (null != receipt) {
 
-            if (1 < receipt.getLogs().size()) {
+            if (0 == receipt.getLogs().size()) {
                 LOGGER.severe("Contract didn't emit ContractCreated Event");
                 return null;
             }
