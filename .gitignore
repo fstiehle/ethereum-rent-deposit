@@ -1,4 +1,10 @@
+
+### confidential data
+.env
+
+### Mac
 .DS_Store
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar

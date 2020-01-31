@@ -1,5 +1,6 @@
 package com.example.RESTapi;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.web3j.abi.EventValues;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
 
 public class Oracle {
 
-    private final String contractAddress = "0x0C1bCcaa3272e319C0F4275EDB24c68EFEA84F45";
+    private final String contractAddress;
     private final int ATTEMPTS = 12;
 
     private final Web3j web3;
@@ -31,8 +32,10 @@ public class Oracle {
     private final static Logger LOGGER = Logger.getLogger(Oracle.class.getName());
 
     public Oracle() {
-        this.web3 = Web3j.build(new HttpService());
-        this.wallet = Credentials.create("0x87e6d2b12bf25338c0ffd05868b5a22c4583ceaa39033fac756a7565a8b42f5b");
+        Dotenv dotenv = Dotenv.load();
+        this.web3 = Web3j.build(new HttpService(dotenv.get("BLOCKCHAIN_NODE_URL")));
+        this.wallet = Credentials.create(dotenv.get("PRIVATE_KEY"));
+        this.contractAddress = dotenv.get("CONTRACT_ADDRESS");
     }
 
     /**
@@ -46,6 +49,12 @@ public class Oracle {
         TransactionReceipt receipt = this.confirmTransaction(transactionHash);
 
         if (null != receipt) {
+
+            if (1 < receipt.getLogs().size()) {
+                LOGGER.severe("Contract didn't emit ContractCreated Event");
+                return null;
+            }
+
             Event event = new Event("ContractCreated",
                 Arrays.asList(new TypeReference<Int>() {}, new TypeReference<Address>() {}));
 
@@ -60,6 +69,7 @@ public class Oracle {
             return result;
         }
 
+        LOGGER.severe("Connection to blockchain network failed");
         return null;
     }
 
