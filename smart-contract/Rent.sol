@@ -77,8 +77,8 @@ contract Rent {
     require(true == active, "Tenant has not accepted this contract yet");
     // Our contract can tolerate slight timestamp variation
     // See: https://link.medium.com/1J8eBAxSy3
-    require(expirationTime > block.timestamp, "Rent contract still active");
-    require(expirationTime + claimWindow < block.timestamp, "Claim window expired");
+    require(expirationTime < block.timestamp, "Rent contract still active");
+    require(expirationTime + claimWindow > block.timestamp, "Claim window expired");
     settlement = false;
     claimMade = block.timestamp;
   }
