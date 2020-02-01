@@ -112,6 +112,7 @@ contract Rent {
    */
   function withdraw() external onlyParty {
     require(true == active, "Tenant has not accepted this contract yet");
+    require(expirationTime + claimWindow < block.timestamp, "Rent contract still active");
     require(true == settlement, "No settlement reached, use settle() first");
     require(0 < settleLandlord || 0 < settleTenant, "All funds already withdrawn, check log for DepositWithdrawn");
     uint toSend = 0;
