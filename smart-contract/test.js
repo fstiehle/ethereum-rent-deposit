@@ -7,8 +7,8 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
   
   console.log("Create new rent contract")
   await contract.methods.createInstance(
-    provider.addresses[1],
     provider.addresses[2],
+    provider.addresses[1],
     500000,
     Date.now(),
     new Date(Date.now()).setFullYear(new Date(Date.now()).getFullYear() + 1),

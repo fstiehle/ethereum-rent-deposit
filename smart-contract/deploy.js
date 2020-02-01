@@ -2,7 +2,13 @@ require('dotenv').config();
 
 const HDWalletProvider = require("@truffle/hdwallet-provider")
 //load single private key as string
-const provider = new HDWalletProvider(process.env["PRIVATE_KEY"], 'https://rinkeby.infura.io/${process.env["API_KEY"]}', 0, 5)
+let provider
+
+if ('production' == process.env.NODE_ENV) {
+  provider = new HDWalletProvider(process.env["PRIVATE_KEY"], 'https://rinkeby.infura.io/${process.env["API_KEY"]}')
+} else {
+  provider = new HDWalletProvider("hope cabin bone sunset thrive eight tray rubber earth resemble survey nasty", "http://localhost:8545", 0, 5);
+}
 
 const Web3 = require('web3')
 const fs = require('fs')
@@ -31,10 +37,10 @@ contract.deploy({
 .then((instance) => {
 
   console.log("Contract Address: " + instance.options.address) 
-
-  console.log("Run tests ...")
-  tests(instance, provider, web3, compiledCode.contracts['Rent.sol']['Rent'].abi)
-
+  if ('development' == process.env.NODE_ENV) {
+    console.log("Run tests ...")
+    tests(instance, provider, web3, compiledCode.contracts['Rent.sol']['Rent'].abi)
+  }
 });
 
 provider.engine.stop()
