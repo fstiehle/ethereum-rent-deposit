@@ -7,6 +7,7 @@ contract Rent {
     after the contract ends
    */
   uint constant claimWindow = 2419200; // 4 weeks
+  uint constant timeout = 31536000; // 1 year
 
   address payable public landlord;
   address public tenant;
@@ -112,10 +113,19 @@ contract Rent {
   function withdraw() external onlyParty {
     require(true == active, "Tenant has not accepted this contract yet");
     require(true == settlement, "No settlement reached, use settle() first");
+    require(0 < settleLandlord || 0 < settleTenant, "All funds already withdrawn, check log for DepositWithdrawn");
     uint toSend = 0;
     if (msg.sender == landlord) {
-      toSend = settleLandlord;
-      settleLandlord = 0;
+
+      if (block.timestamp > expirationTime + timeout) {
+        // allow landlord to withdraw deposit after a given timeout
+        toSend = depositWei;
+        active = false;
+      } else {
+        toSend = settleLandlord;
+        settleLandlord = 0;
+      }
+
     } else if (msg.sender == tenant) {
       toSend = settleTenant;
       settleTenant = 0;
