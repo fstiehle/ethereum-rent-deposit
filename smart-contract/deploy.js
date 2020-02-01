@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 const HDWalletProvider = require("@truffle/hdwallet-provider")
 //load single private key as string
-const provider = new HDWalletProvider("hope cabin bone sunset thrive eight tray rubber earth resemble survey nasty", "http://localhost:8545", 0, 5)
+const provider = new HDWalletProvider(process.env["PRIVATE_KEY"], 'https://rinkeby.infura.io/${process.env["API_KEY"]}', 0, 5)
 
 const Web3 = require('web3')
 const fs = require('fs')
@@ -23,7 +25,7 @@ const contract = new web3.eth.Contract(abi)
 contract.deploy({
   data: '0x' + binCode
 }).send({
-  from: provider.addresses[0], gas: 9999999999999,
+  from: provider.addresses[0], gas: 5000000,
 })
 .on('error', console.log)
 .then((instance) => {
