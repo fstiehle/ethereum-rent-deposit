@@ -1,5 +1,6 @@
 const assert = require('assert');
-const Web3 = require('web3')
+
+let Web3;
 
 const runTest = async (contract, provider, web3, rentContractAbi) => {
 
@@ -15,7 +16,7 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
     2
   ).send({
     from: provider.addresses[0],
-    gas: 9999999999999
+    gas: 5000000
   })
   .then(
     (e) => {
@@ -87,7 +88,7 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
 	  assert.ok(false);
     });
 	
-	//Test#4 Only Landlord can make a claim
+  //Test#4 Only Landlord can make a claim
 	
   console.log("Make claim by non-landlord")
   await rentContract.methods.makeClaim().call({
@@ -120,6 +121,11 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
 	
 	
 	
+  console.log("One year advancement");
+  await advanceTimeAndBlock(31536000);
+  
+  
+	
 	
   //Test#6 Make correct claim
   
@@ -136,7 +142,7 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
 	  assert.ok(false);
     });
 	
-  //Test#7 Kill contract by non-landlord
+  //Test#7 Killing non-settled contract
   
   console.log("Killing non-settled contract")
   await rentContract.methods.kill().call({
@@ -178,7 +184,7 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
 	  console.log("OK!");	  
     },
     (error) => {
-	  console.log('Some error occured while Landlord settlement');
+	  console.log('Some error occured while Tenant settlement');
 	  console.log(error);
 	  assert.ok(false);
     });
@@ -199,10 +205,18 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
       assert.ok(false);
     });
 	
+	
+	
+  console.log("Four weeks advancement");
+  await advanceTimeAndBlock(2419200);
+  
+  
+	
+	
   //Test#11 Withdraw funds by non-party
   
   console.log("Withdraw funds by non-party")
-  await rentContract.methods.currentSettlementStatus().call({
+  await rentContract.methods.withdraw().call({
     from: provider.addresses[3],
   })
   .then(
@@ -229,6 +243,14 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
       assert.ok(false);
     });
 	
+	
+	
+  console.log("One year advancement");
+  await advanceTimeAndBlock(31536000);
+  
+  
+	
+	
   //Test#13 Withdraw funds by Landlord
 	
   console.log("Withdraw funds by Landlord")
@@ -248,8 +270,8 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
   //Test#14 Check all funds are withdrawn
   
   console.log("Check all funds are withdrawn")
-  await rentContract.methods.currentSettlementStatus().call({
-    from: provider.addresses[0],
+  await rentContract.methods.withdraw().call({
+    from: provider.addresses[1],
   })
   .then(
     (e) => {      
@@ -290,9 +312,47 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
       console.log(error);	  
       assert.ok(false);
     });
+	
+  console.log("Tests passed successfully");
   
 }
 
 
+
+advanceTimeAndBlock = async (time) => {
+    await advanceTime(time);
+    await advanceBlock();
+
+    return Promise.resolve(Web3.eth.getBlock('latest'));
+}
+
+advanceTime = (time) => {
+    return new Promise((resolve, reject) => {
+        Web3.currentProvider.sendAsync({
+            jsonrpc: "2.0",
+            method: "evm_increaseTime",
+            params: [time],
+            id: new Date().getTime()
+        }, (err, result) => {
+            if (err) { return reject(err); }
+            return resolve(result);
+        });
+    });
+}
+
+advanceBlock = () => {
+    return new Promise((resolve, reject) => {
+        Web3.currentProvider.sendAsync({
+            jsonrpc: "2.0",
+            method: "evm_mine",
+            id: new Date().getTime()
+        }, (err, result) => {
+            if (err) { return reject(err); }
+            const newBlockHash = Web3.eth.getBlock('latest').hash;
+
+            return resolve(newBlockHash)
+        });
+    });
+}
 
 module.exports = runTest;
