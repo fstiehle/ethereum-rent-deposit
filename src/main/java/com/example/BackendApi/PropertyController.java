@@ -1,11 +1,12 @@
-package com.example.RESTapi;
+package com.example.BackendApi;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 @RestController
-@RequestMapping("api/addproperty")
+@RequestMapping(value ="api/addproperty" , method = RequestMethod.POST)
+@CrossOrigin(origins =  "*" ,allowCredentials = "true" , maxAge = 3600)
 public class PropertyController {
 
     private final PropertyService service;
@@ -25,7 +26,7 @@ public class PropertyController {
     }
 
     @RequestMapping(
-            method = RequestMethod.PUT,
+            method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )

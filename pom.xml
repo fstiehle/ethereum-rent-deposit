@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>RESTapi</artifactId>
+	<artifactId>BackendApi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>RESTapi</name>
-	<description>Back end RESTapi for Rent-deposit project</description>
+	<name>BackendApi</name>
+	<description>Back end API for Rent-deposit project</description>
 
 	<properties>
 		<java.version>11</java.version>

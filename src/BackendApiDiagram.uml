@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="9.965909090909093" y="237.0">com.example.BackendApi.PropertyService</node>
+    <node x="1.431818181818187" y="158.0">com.example.BackendApi.PropertyDao</node>
+    <node x="68.25757575757575" y="0.0">com.example.BackendApi.Property</node>
+    <node x="0.0" y="79.0">com.example.BackendApi.Oracle</node>
+    <node x="28.340909090909108" y="316.0">com.example.BackendApi.PropertyController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.example.BackendApi.PropertyService" target="com.example.BackendApi.PropertyDao">
+      <point x="-51.0" y="-14.5" />
+      <point x="35.46590909090909" y="212.0" />
+      <point x="32.68181818181819" y="212.0" />
+      <point x="-31.25" y="14.5" />
+    </edge>
+    <edge source="com.example.BackendApi.PropertyDao" target="com.example.BackendApi.Oracle">
+      <point x="-1.4210854715202004E-14" y="-14.5" />
+      <point x="63.93181818181817" y="133.0" />
+      <point x="67.5" y="133.0" />
+      <point x="22.5" y="14.5" />
+    </edge>
+    <edge source="com.example.BackendApi.PropertyDao" target="com.example.BackendApi.Property">
+      <point x="41.66666666666664" y="-14.5" />
+      <point x="105.59848484848483" y="133.0" />
+      <point x="104.59090909090908" y="133.0" />
+      <point x="104.59090909090908" y="54.0" />
+      <point x="107.25757575757575" y="54.0" />
+      <point x="-13.0" y="14.5" />
+    </edge>
+    <edge source="com.example.BackendApi.PropertyController" target="com.example.BackendApi.PropertyService">
+      <point x="-58.000000000000014" y="-14.5" />
+      <point x="57.34090909090909" y="291.0" />
+      <point x="48.21590909090909" y="291.0" />
+      <point x="-38.25" y="14.5" />
+    </edge>
+    <edge source="com.example.BackendApi.Oracle" target="com.example.BackendApi.Property">
+      <point x="0.0" y="-14.5" />
+      <point x="45.0" y="54.0" />
+      <point x="81.25757575757575" y="54.0" />
+      <point x="-39.0" y="14.5" />
+    </edge>
+    <edge source="com.example.BackendApi.PropertyService" target="com.example.BackendApi.Property">
+      <point x="51.0" y="-14.5" />
+      <point x="137.4659090909091" y="212.0" />
+      <point x="138.83333333333334" y="212.0" />
+      <point x="138.83333333333334" y="54.0" />
+      <point x="133.25757575757575" y="54.0" />
+      <point x="13.0" y="14.5" />
+    </edge>
+    <edge source="com.example.BackendApi.PropertyController" target="com.example.BackendApi.Property">
+      <point x="57.999999999999986" y="-14.5" />
+      <point x="173.4659090909091" y="54.0" />
+      <point x="159.25757575757575" y="54.0" />
+      <point x="39.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="259.5" y="280.0" />
+  <SelectedNodes>
+    <node>com.example.BackendApi.PropertyService</node>
+    <node>com.example.BackendApi.PropertyDao</node>
+    <node>com.example.BackendApi.Property</node>
+    <node>com.example.BackendApi.Oracle</node>
+    <node>com.example.BackendApi.PropertyController</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

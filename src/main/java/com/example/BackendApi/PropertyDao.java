@@ -1,4 +1,4 @@
-package com.example.RESTapi;
+package com.example.BackendApi;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Repository;
@@ -22,6 +22,7 @@ public class PropertyDao {
         }
         try {
             connection= DriverManager.getConnection("jdbc:mysql://propertiesdb.cwpjk6ezwd65.us-east-1.rds.amazonaws.com:3306/ECProject", dotenv.get("DB_USER"),dotenv.get("DB_PASS"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
