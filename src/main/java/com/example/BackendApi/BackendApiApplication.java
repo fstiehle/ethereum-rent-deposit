@@ -1,13 +1,13 @@
-package com.example.RESTapi;
+package com.example.BackendApi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RESTapiApplication {
+public class BackendApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RESTapiApplication.class, args);
+		SpringApplication.run(BackendApiApplication.class, args);
 	}
 
 }

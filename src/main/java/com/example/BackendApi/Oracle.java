@@ -1,4 +1,4 @@
-package com.example.RESTapi;
+package com.example.BackendApi;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.web3j.abi.EventValues;
@@ -11,8 +11,14 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
+import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
+import org.web3j.tx.RawTransactionManager;
+import org.web3j.tx.TransactionManager;
+import org.web3j.tx.gas.DefaultGasProvider;
+import org.web3j.tx.response.PollingTransactionReceiptProcessor;
+import org.web3j.tx.response.TransactionReceiptProcessor;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -25,7 +31,6 @@ import java.util.logging.Logger;
 public class Oracle {
 
     private final String contractAddress;
-    private final int ATTEMPTS = 12;
 
     private final Web3j web3;
     private final Credentials wallet;
@@ -56,7 +61,7 @@ public class Oracle {
             }
 
             Event event = new Event("ContractCreated",
-                Arrays.asList(new TypeReference<Int>() {}, new TypeReference<Address>() {}));
+                    Arrays.asList(new TypeReference<Int>() {}, new TypeReference<Address>() {}));
 
             EventValues values = Contract.staticExtractEventParameters(event, receipt.getLogs().get(0));
             if (null == values || 0 == values.getNonIndexedValues().size()) {
@@ -79,32 +84,24 @@ public class Oracle {
      * @return TransactionReceipt trasnactionReceipt
      */
     private TransactionReceipt confirmTransaction(String transactionHash) {
-        Optional<TransactionReceipt> receipt;
 
-        EthGetTransactionReceipt answer;
+        TransactionReceiptProcessor processor = new PollingTransactionReceiptProcessor(
+                this.web3,
+                TransactionManager.DEFAULT_POLLING_FREQUENCY,
+                TransactionManager.DEFAULT_POLLING_ATTEMPTS_PER_TX_HASH);
+
+        TransactionReceipt receipt;
         try {
-            answer = web3.ethGetTransactionReceipt(transactionHash).send();
+            receipt = processor.waitForTransactionReceipt(transactionHash);
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return null;
+        } catch (TransactionException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             return null;
         }
 
-        receipt = answer.getTransactionReceipt();
-        for (int i = 0; i < ATTEMPTS; i++) {
-
-            if (receipt.isPresent()) {
-                return receipt.get();
-            }
-
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                LOGGER.log(Level.SEVERE, e.getMessage(), e);
-                return null;
-            }
-        }
-
-        return null;
+        return receipt;
     }
 
     /**
@@ -127,26 +124,22 @@ public class Oracle {
         String encodedFunction = FunctionEncoder.encode(function);
         BigInteger nonce = this.getNonce();
 
-
-        Transaction transaction = Transaction.createFunctionCallTransaction(
-                this.wallet.getAddress(),
-                nonce,
-                Contract.GAS_PRICE,
-                Contract.GAS_LIMIT,
-                this.contractAddress,
-                BigInteger.ZERO,
-                encodedFunction);
+        TransactionManager transactionManager = new RawTransactionManager(this.web3, this.wallet);
 
         EthSendTransaction response;
         try {
-            response = web3.ethSendTransaction(transaction).sendAsync().get();
-        } catch (InterruptedException e) {
-            LOGGER.log(Level.SEVERE, e.getMessage(), e);
-            return null;
-        } catch (ExecutionException e) {
+            response = transactionManager.sendTransaction(
+                    DefaultGasProvider.GAS_PRICE,
+                    DefaultGasProvider.GAS_LIMIT,
+                    this.contractAddress,
+                    encodedFunction,
+                    BigInteger.ZERO);
+
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
             return null;
         }
+
 
         if (response.hasError()) {
             LOGGER.severe(response.getError().getMessage());

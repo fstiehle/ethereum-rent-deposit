@@ -1,4 +1,4 @@
-package com.example.RESTapi;
+package com.example.BackendApi;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.example.RESTapi;
+package com.example.BackendApi;
 
 import java.sql.Date;
 import java.util.Objects;
