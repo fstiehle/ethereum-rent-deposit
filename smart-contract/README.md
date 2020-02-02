@@ -1,8 +1,11 @@
-1. install dependecies via `npm install`
+# Build
+1. In the folder smart-contract run `npm install` to install dependencies.
+2. Include a .env file with the parameters PRIVATE_KEY and API_KEY for deployment to rinkeby. (https://www.npmjs.com/package/dotenv) The .env file has to be located in the smart-contract folder.
+3. Run `npm run build` to compile RentFactory.sol and Rent.sol as well as their dependencies.
 
-2. run ganache via `npm run ganache`
+# Deployment
+1. Run `npm run deployprod` to deploy to rinkeby
 
-3. deploy to ganach by executing the deploy script `node deploy.js`
-(This will also run some tests.)
-
-Compile new changes via `npm run build`
+OR
+1. run `npm run ganache` to start a local ganache server
+2. run `npm run deploydev` to deploy to the local ganache server and execute automated tests
