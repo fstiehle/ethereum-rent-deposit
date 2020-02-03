@@ -66,6 +66,7 @@ contract Rent {
   function proccessPayment() internal {
     if (address(this).balance >= depositWei) {
       settleTenant = depositWei;
+      settleLandlord = 0;
       settlement = true;
       active = true;
     }
@@ -81,6 +82,7 @@ contract Rent {
     require(expirationTime < block.timestamp, "Rent contract still active");
     require(expirationTime + claimWindow > block.timestamp, "Claim window expired");
     settlement = false;
+    settleLandlord = depositWei;
     claimMade = block.timestamp;
   }
 
@@ -111,25 +113,28 @@ contract Rent {
     Use Checks-Effects-Interactions Pattern
    */
   function withdraw() external onlyParty {
-    require(true == active, "Tenant has not accepted this contract yet");
+    require(true == active, "Contract is inactive - accept it by Tenant to proceed");
     require(expirationTime + claimWindow < block.timestamp, "Rent contract still active");
-    require(true == settlement, "No settlement reached, use settle() first");
-    require(0 < settleLandlord || 0 < settleTenant, "All funds already withdrawn, check log for DepositWithdrawn");
+    
+    require(0 < address(this).balance, "All funds already withdrawn, check log for DepositWithdrawn");
     uint toSend = 0;
-    if (msg.sender == landlord) {
 
-      if (block.timestamp > expirationTime + timeout) {
-        // allow landlord to withdraw deposit after a given timeout
-        toSend = depositWei;
-        active = false;
-      } else {
-        toSend = settleLandlord;
-        settleLandlord = 0;
-      }
-
-    } else if (msg.sender == tenant) {
-      toSend = settleTenant;
-      settleTenant = 0;
+    if (false == settlement) {
+       require(block.timestamp > expirationTime + timeout, "No settlement reached, use settle() first");
+       require(msg.sender == landlord, "Timeout reached, no withdrawal possible");
+       toSend = address(this).balance;
+       active = false;
+    } else {
+          if (msg.sender == landlord) {
+            toSend = settleLandlord;
+            settleLandlord = 0;
+	  } else if (msg.sender == tenant) {
+            toSend = settleTenant;
+            settleTenant = 0;
+	  }
+          if (settleTenant == 0 && settleLandlord == 0) {
+            active = false;
+          }
     }
 
     msg.sender.transfer(toSend);
@@ -142,7 +147,7 @@ contract Rent {
 
 
   function kill() external onlyLandlord {
-    require(true == settlement && 0 == settleLandlord && 0 == settleTenant, "Only a settled contract can be killed");
+    require(false == active && 0 == address(this).balance, "Only inactive contract without funds can be killed");
     selfdestruct(landlord);
   }
 
