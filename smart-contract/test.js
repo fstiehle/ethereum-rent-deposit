@@ -612,18 +612,16 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
 	
 	
   //Test#29 Check impossibility to withdraw funds from unsettled contract
-  
   console.log("Check impossibility to withdraw funds from unsettled contract")
   await rentContract.methods.withdraw().send({
     from: provider.addresses[2],
   })
   .then(
     (e) => {      
-      console.log("Withdrawn funds from unsettled contract, error!");
-      assert.ok(false);
+      assert(0 == Object.keys(e.events).length, 0)
     },
     (error) => {
-      console.log("OK!");
+      assert.ok(false);
     });
 
 
@@ -638,11 +636,10 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
   })
   .then(
     (e) => {      
-      console.log("Withdrawn funds from unsettled contract by Tenant after timeout, error!");
-      assert.ok(false);
+      assert(0 == Object.keys(e.events).length, 0)
     },
     (error) => {
-      console.log("OK!");
+      assert.ok(false);
     });
 	
 	
@@ -654,7 +651,7 @@ const runTest = async (contract, provider, web3, rentContractAbi) => {
   })
   .then(
     (e) => {      
-      console.log("OK!");
+      assert(1 == Object.keys(e.events).length, 0)
     },
     (error) => {
       console.log(error);
