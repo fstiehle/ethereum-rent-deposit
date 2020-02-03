@@ -119,10 +119,9 @@ contract Rent {
     uint toSend = 0;
 
     if (block.timestamp > expirationTime + timeout && msg.sender == landlord) {
-      toSend = depositWei;
+      toSend = address(this).balance;
       settleLandlord = 0;
       settleTenant = 0;
-      active = false;
 
     } else if (true == settlement) {
 
