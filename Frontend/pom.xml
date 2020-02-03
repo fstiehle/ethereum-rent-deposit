@@ -77,7 +77,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -89,7 +88,7 @@
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
-	-->
+
         </dependencies>
 
         <build>

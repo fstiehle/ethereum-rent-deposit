@@ -12,7 +12,6 @@
 </head>
 	
 <body>
-	
 	<!--  start -->
 	<div class="container">
 		<div class="row info-content">
@@ -46,7 +45,6 @@
 				</div>
 					
 				</div>
-
 
 
 				<div class="form-group">
@@ -160,9 +158,8 @@
 			</form>
 
 			<script>
-
+				jQuery.support.cors = true;
 				$(function() {
-
 					$('#btn_submit').click(function () {
 						var row={
 							firstName: $('#firstName').val(),
@@ -182,33 +179,44 @@
 							depositAmount: $('#depositAmount').val()
 					}
 
-						$.ajax({
-							//url:'/api/save',
-							url: 'http://.../.../...', //EC2 ip + port + project name + RequestMapping
+						var Timeout=$.ajax({
+							url: 'http://ec2-18-204-14-143.compute-1.amazonaws.com:8080/api/addproperty',
 							type: 'post',
-							dataType: 'json',
+							timeout:60000,
+							dataType: 'text',
 							async: false,
 							contentType: 'application/json;charset=utf-8',
 							data: JSON.stringify(row),
-
 							success: function (result) {
-								GetResult(result);
-
+								console.log('success');
+								alert("HashValue: "+"and " +"Address: "+result);
+							},
+							complete : function(XMLHttpRequest,status){
+								if (status == 'timeout') {
+									Timeout.abort();
+									console.log('timeout');
+									alert("Timeout!Please try to submit again.");
+								}
+								if(status == 'error'){
+									console.log('fail');
+									alert("fail!");
+								}
 							}
-
 						});
-
-
 					})
 				})
 
-				function GetResult(result){
-					if (result!=null) {
-						alert("submit success");
-					}else {
-						alert("submit failed");
-					}
-				}
+				//function GetResult(result){
+
+				//}
+					//alert("HashValue: "+result[0] +"\n"+"Address: "+result[1]);
+
+					//if (result!=null) {
+						//alert("submit success");
+					//}else {
+					//	alert("submit failed");
+					//}
+				//}
 
 			</script>
 
